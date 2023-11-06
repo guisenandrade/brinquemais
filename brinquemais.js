@@ -98,7 +98,14 @@ app.post("/cadastroproduto", async(req, res)=>{
 
 });
 
+//rota para o ge de cadastro
+app.get("/cadastrousuario", async(req, res)=>{
+    res.sendFile(__dirname +"/cadastrousuario.html");
+})
 
+app.get("/cadastroproduto", async(req, res)=>{
+    res.sendFile(__dirname +"/cadastroproduto.html");
+})
 
 //configurando a porta
 app.listen(port, ()=>{
