@@ -26,20 +26,6 @@ const UsuarioSchema = new mongoose.Schema({
 
 const Usuario = mongoose.model("Usuario", UsuarioSchema);
 
-
-
-const ProdutoBrinquedoSchema = new mongoose.Schema({
-    id_produtobrinquedo : {type : String, required : true},
-    descricao : { type : String},
-    marca : { type : String},
-    idadelimite : {type : Number},
-    datafrabricacao : {type : Date}
-
-});
-
-const ProdutoBrinquedo = mongoose.model("ProdutoBrinquedo", ProdutoBrinquedoSchema);
-
-
 //configurando os roteamentos
 app.post("/cadastrousuario", async(req, res)=>{
     const email = req.body.email;
@@ -68,6 +54,17 @@ app.post("/cadastrousuario", async(req, res)=>{
 
 });
 
+const ProdutoBrinquedoSchema = new mongoose.Schema({
+    id_produtobrinquedo : {type : String, required : true},
+    descricao : { type : String},
+    marca : { type : String},
+    idadelimite : {type : Number},
+    datafrabricacao : {type : Date}
+
+});
+
+const ProdutoBrinquedo = mongoose.model("ProdutoBrinquedo", ProdutoBrinquedoSchema);
+
 app.post("/cadastroproduto", async(req, res)=>{
     const id_produtobrinquedo = req.body.id_produtobrinquedo;
     const descricao = req.body.descricao;
@@ -82,7 +79,7 @@ app.post("/cadastroproduto", async(req, res)=>{
     }
 
 
-    const ProdutoBrinquedo = new ProdutoBrinquedo({
+    const produtoBrinquedo = new ProdutoBrinquedo({
         id_produtobrinquedo : id_produtobrinquedo,
         descricao : descricao,
         marca : marca,
@@ -92,10 +89,10 @@ app.post("/cadastroproduto", async(req, res)=>{
 
 
     try{
-        const newProdutoBrinquedo = await ProdutoBrinquedo.save();
+        const newProdutoBrinquedo = await produtoBrinquedo.save();
         res.json({error : null, msg : "Cadastro ok", pessoaId : newProdutoBrinquedo._id});
     } catch(error){
-        res.status(400).json({error});
+        res.status(400).json({error : "preencha todos os campos"});
     }
 
 
