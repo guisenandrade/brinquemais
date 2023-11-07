@@ -14,7 +14,7 @@ const port = 3000;
 mongoose.connect('mongodb://127.0.0.1:27017/brinquemais',
 {   useNewUrlParser: true,
     useUnifiedTopology: true,
-    //serverSelectionTimeoutMS : 20000
+    serverSelectionTimeoutMS : 20000
 });
 
 
@@ -67,7 +67,7 @@ const ProdutobrinquedoSchema = new mongoose.Schema({
     descricao : { type : String},
     marca : { type : String},
     idadelimite : {type : Number},
-    datafrabricacao : {type : Date}
+    datafabricacao : {type : Date}
 
 });
 
@@ -78,7 +78,7 @@ app.post("/cadastroproduto", async(req, res)=>{
     const descricao = req.body.descricao;
     const marca = req.body.marca;
     const idadelimite = req.body.idadelimite;
-    const datafrabricacao = req.body.datafrabricacao;
+    const datafabricacao = req.body.datafabricacao;
     
 
 
@@ -87,13 +87,22 @@ app.post("/cadastroproduto", async(req, res)=>{
         descricao : descricao,
         marca : marca,
         idadelimite : idadelimite,
-        datafrabricacao : datafrabricacao,
+        datafabricacao : datafabricacao,
     })
 
+    const idadelimitetotal = idadelimite
 
+     if(idadelimitetotal>35){
+        return res.status(400).json({error : "A idade limite é maior do que é possível"})
+    }
 
+    else if (idadelimitetotal<=0){
+        return res.status(400).json({error : "Coloque um valor positivo que seja menor que 35"})
+    }
+
+    
     //testando se todos os campos foram preenchidos
-    if(  id_produtobrinquedo == null || descricao == null || marca == null || idadelimite == null || datafrabricacao == null ){
+    if(  id_produtobrinquedo == null || descricao == null || marca == null || idadelimite == null || datafabricacao == null ){
         return res.status(400).json({error : "preencha todos os campos"})
     }
 
