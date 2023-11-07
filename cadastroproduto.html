@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro do Produto</title>
+
+    <!-- Inclua o CSS do Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<!-- Barra de Navegação Bootstrap -->
+<header class="bg-dark">        
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark container">            
+        <a class="navbar-brand" href="/">Nome do Projeto</a>            
+        <div class="mx-auto">                
+            <img class="img" src="logo.png" alt="">
+        </div>            
+        <ul class="navbar-nav ml-auto">                
+            <li class="nav-item">                    
+                <a class="nav-link" href="/cadastrousuario">Entrar</a>                
+            </li>    
+
+            <li class="nav-item">                    
+                <a class="nav-link" href="/cadastroproduto">Cadastrar Produto</a>                
+            </li>  
+
+        </ul>        
+    </nav>    
+</header>
+
+<!-- Formulário de Cadastro de Pessoa com Bootstrap -->
+<div class="container mt-5">
+    <h1>Cadastro de Produto</h1>
+    <form action="/cadastroproduto" method="post">
+<div class="form-group">
+            <label for="nome">ID do produto:</label>
+            <input type="text" class="form-control" id="text" name="id_produtobrinquedo" placeholder="">
+        </div>
+        <div class="form-group">
+            <label for="email">Descrição:</label>
+            <input type="text" class="form-control" id="text" name="descricao" placeholder="">
+        </div>
+        <div class="form-group">
+            <label for="endereco">Marca:</label>
+            <input type="text" class="form-control" id="text" name="marca" placeholder="">
+        </div>
+        <div class="form-group">
+            <label for="numero">Idade Limite:</label>
+            <input type="text" class="form-control" id="text" name="idadelimite" placeholder="">
+        </div>
+        <div class="form-group">
+            <label for="cep">Data Fabricação:</label>
+            <input type="text" class="form-control" id="text" name="datafabricacao" placeholder="">
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Cadastrar</button>
+    </form>
+</div>
+
+<!-- Inclua o JavaScript do Bootstrap e jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+

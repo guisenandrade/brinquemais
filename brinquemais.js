@@ -11,7 +11,7 @@ const port = 3000;
 
 
 //configurando o acesso ao mongodb
-mongoose.connect('mongodb://127.0.0.1:27017/AC',
+mongoose.connect('mongodb://127.0.0.1:27017/brinquemais',
 {   useNewUrlParser: true,
     useUnifiedTopology: true,
     serverSelectionTimeoutMS : 20000
@@ -27,70 +27,91 @@ const UsuarioSchema = new mongoose.Schema({
 const Usuario = mongoose.model("Usuario", UsuarioSchema);
 
 //configurando os roteamentos
+
+
 app.post("/cadastrousuario", async(req, res)=>{
     const email = req.body.email;
     const senha = req.body.senha;
 
-
-    //testando se todos os campos foram preenchidos
     if(  email == null || senha == null){
         return res.status(400).json({error : "preencha todos os campos"})
     }
 
+    const emailexiste= await Usuario.findOne({email:email})
+    if(emailexiste){
+        return res.status(400).json({error:"o email cadastrado ja existe "})
+    }
 
     const usuario = new Usuario({
         email : email,
-        senha : senha
+        senha : senha,
     })
 
 
     try{
         const newUsuario = await usuario.save();
-        res.json({error : null, msg : "Cadastro ok", usuarioId : newUsuario._id});
-    } catch(error){
-        res.status(400).json({error});
+        res.json({error : null, msg : "Cadastro ok", UsuarioId : newUsuario._id});
+    } 
+    catch(error){
+        res.status(400).json((error));
     }
 
 
 });
 
-const ProdutoBrinquedoSchema = new mongoose.Schema({
+
+
+//CADASTRO DO PRODUTO
+const ProdutobrinquedoSchema = new mongoose.Schema({
     id_produtobrinquedo : {type : String, required : true},
     descricao : { type : String},
     marca : { type : String},
     idadelimite : {type : Number},
-    datafrabricacao : {type : Date}
+    datafabricacao : {type : Date}
 
 });
 
-const ProdutoBrinquedo = mongoose.model("ProdutoBrinquedo", ProdutoBrinquedoSchema);
+const Produtobrinquedo = mongoose.model("Produtobrinquedo", ProdutobrinquedoSchema);
 
 app.post("/cadastroproduto", async(req, res)=>{
     const id_produtobrinquedo = req.body.id_produtobrinquedo;
     const descricao = req.body.descricao;
     const marca = req.body.marca;
     const idadelimite = req.body.idadelimite;
-    const datafrabricacao = req.body.datafrabricacao;
+    const datafabricacao = req.body.datafabricacao;
     
 
-    //testando se todos os campos foram preenchidos
-    if(  id_produtobrinquedo == null || descricao == null || marca == null || idadelimite == null || datafrabricacao == null ){
-        return res.status(400).json({error : "preencha todos os campos"})
-    }
 
-
-    const produtoBrinquedo = new ProdutoBrinquedo({
+    const produtobrinquedo = new Produtobrinquedo({
         id_produtobrinquedo : id_produtobrinquedo,
         descricao : descricao,
         marca : marca,
         idadelimite : idadelimite,
-        datafrabricacao : datafrabricacao
+        datafabricacao : datafabricacao,
     })
 
+    const idadelimitetotal = idadelimite
 
+     if(idadelimitetotal>35){
+        return res.status(400).json({error : "A idade limite é maior do que é possível"})
+    }
+
+    else if (idadelimitetotal<=0){
+        return res.status(400).json({error : "Coloque um valor positivo que seja menor que 35"})
+    }
+
+    
+    //testando se todos os campos foram preenchidos
+    if(  id_produtobrinquedo == null || descricao == null || marca == null || idadelimite == null || datafabricacao == null ){
+        return res.status(400).json({error : "preencha todos os campos"})
+    }
+
+
+   
+    
     try{
-        const newProdutoBrinquedo = await produtoBrinquedo.save();
-        res.json({error : null, msg : "Cadastro ok", pessoaId : newProdutoBrinquedo._id});
+        const newprodutobrinquedo = await produtobrinquedo.save();
+        res.json({error : null, msg : "Cadastro ok", produtobrinquedoId : newprodutobrinquedo._id});
     } catch(error){
         res.status(400).json({error : "preencha todos os campos"});
     }
@@ -98,7 +119,19 @@ app.post("/cadastroproduto", async(req, res)=>{
 
 });
 
+//rota para o ge de cadastro
+app.get("/cadastrousuario", async(req, res)=>{
+    res.sendFile(__dirname +"/cadastrousuario.html");
+})
 
+app.get("/cadastroproduto", async(req, res)=>{
+    res.sendFile(__dirname +"/cadastroproduto.html");
+})
+
+
+app.get("/", async(req, res)=>{
+    res.sendFile(__dirname +"/index.html");
+})
 
 //configurando a porta
 app.listen(port, ()=>{
